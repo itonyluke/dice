@@ -116,7 +116,7 @@ static void output_results(float (&probability)[11])
 	unsigned int l = 0;
 
 	std::cout << "Roll a ...\t";
-	std::cout << "Probalility" << std::endl;
+	std::cout << "Probability" << std::endl;
 	for (unsigned int i = 2; i <= 12; i++)
 	{
 		std::cout << std::setw(10) << i << "\t";
