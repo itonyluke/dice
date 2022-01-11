@@ -196,10 +196,15 @@ int main(int argc, char **argv)
 			ex++;
 			std::cout << "#" << ex << " " << exc.what() << std::endl;
 		}
+		sample_space = pow(number_of_sides, number_of_dice);
+		if (sample_space == 0)
+		{
+			std::cout << "that is too much even for me" << std::endl;
+			exit(EXIT_SUCCESS);
+		}
 		std::cout << "number_of_dice =\t"<< number_of_dice << "\n" << "number_of_sides =\t"<< number_of_sides << std::endl;
 		probability_size = number_of_dice * number_of_sides - 1;
 		std::cout << "probability_size =\t"<< probability_size << std::endl;
-		sample_space = pow(number_of_sides, number_of_dice);
 		std::cout << "sample_space =\t\t"<< sample_space << std::endl;
 		for (unsigned int i = 1; i <= (number_of_sides * number_of_dice); i++)
 		{
@@ -212,14 +217,11 @@ int main(int argc, char **argv)
 			}
 			else
 				options.push_back(i);
-
 		}
-//		options.erase(options.begin());
 		std::cout << "options.size() =\t"<< options.size() << std::endl;
 		for (std::vector<unsigned int>::iterator it = options.begin(); it < options.end(); ++it)
 			std::cout << *it << " ";
 		std::cout << std::endl;
-
 	}
 	else
 		prompt_usage();
