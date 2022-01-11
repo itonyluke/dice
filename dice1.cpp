@@ -61,29 +61,46 @@
 //}
 //
 //// calculates sample space
-//static void calculate_sample_space(unsigned int sample_space)
-//{
-//	unsigned int i = 0;
-//	unsigned int j = 1;
-//	unsigned int k = 1;
-//	unsigned int possibility[sample_space];
-//
-//	while (i < 36)
-//	{
-//		while (j <= 6)
-//		{
-//			k = 1;
-//			while (k <= 6)
-//			{
-//				possibility[i] = j + k;
-//				k++;
-//				i++;
-//			}
-//			j++;
-//		}
-//	}
-//}
-//
+static void calculate_sample_space(std::vector<unsigned int> &options, unsigned long long &sample_space, unsigned int &number_of_sides)
+{
+//	std::vector<unsigned int>::iterator it = options.begin();
+	unsigned int i = 0;
+	unsigned int j = 1;
+	unsigned int k = 1;
+
+
+	while (i < sample_space)
+	{
+		while (j <= number_of_sides)
+		{
+			k = 1;
+			while (k <= number_of_sides)
+			{
+				try
+				{
+					options.at(i) = j + k;
+				}
+				catch (std::out_of_range)
+				{
+					std::cout << "oops" << std::endl;
+				}
+				try
+				{
+					std::cout << options.at(i) << " ";
+				}
+				catch (std::out_of_range)
+				{
+					std::cout << "oops" << std::endl;
+					exit(EXIT_FAILURE);
+				}
+				k++;
+				i++;
+			}
+			j++;
+		}
+	}
+}
+
 //// calculates how many sums are there
 //static void how_many_sums_are_there(t_s &s, unsigned int sample_space)
 //{
@@ -184,7 +201,8 @@ int main(int argc, char **argv)
 	{
 		(void)argv;
 		std::vector<unsigned int> options;
-		unsigned long long			number_of_dice, number_of_sides, probability_size, sample_space;
+		unsigned long long int		sample_space;
+		unsigned int				number_of_sides, number_of_dice, probability_size;
 
 		try
 		{
@@ -222,6 +240,7 @@ int main(int argc, char **argv)
 		for (std::vector<unsigned int>::iterator it = options.begin(); it < options.end(); ++it)
 			std::cout << *it << " ";
 		std::cout << std::endl;
+		calculate_sample_space(options, sample_space, number_of_sides);
 	}
 	else
 		prompt_usage();
