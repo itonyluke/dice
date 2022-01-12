@@ -60,98 +60,160 @@
 //		possibility[i] = 0;
 //}
 //
+
 //// calculates sample space
-static void calculate_sample_space(std::vector<unsigned int> &options, unsigned long long &sample_space, unsigned int &number_of_sides)
+static void calculate_sample_space(std::vector<unsigned int> &possibilities, std::vector<unsigned int> &options, unsigned int &number_of_dice, unsigned long long &sample_space, unsigned int &number_of_sides)
 {
-//	std::vector<unsigned int>::iterator it = options.begin();
 	unsigned int i = 0;
 	unsigned int j = 1;
-	unsigned int k = 1;
+	unsigned int hold = 0;
+	std::vector<unsigned int> arr;
+	(void)possibilities;
+	(void)sample_space;
+	(void)options;
 
 
+	unsigned int a = 0;
+	if (number_of_dice == 1)
+		arr.push_back(a);
+	else if (number_of_dice > 1)
+	{
+		a = 1;
+		while (a <= number_of_dice * number_of_sides - 1)
+		{
+			arr.push_back(a);
+			a++;
+		}
+		arr.push_back(a);
+	}
+//	a = 0;
+//	for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
+//	{
+//		std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
+//		a++;
+//	}
+	std::vector<unsigned int>::iterator arr_it = arr.begin();
 	while (i < sample_space)
 	{
-		while (j <= number_of_sides)
+		if (i < 7)
+			arr_it = arr.begin();
+		else
 		{
-			k = 1;
-			while (k <= number_of_sides)
-			{
-				try
-				{
-					options.at(i) = j + k;
-				}
-				catch (std::out_of_range)
-				{
-					std::cout << "oops" << std::endl;
-				}
-				try
-				{
-					std::cout << options.at(i) << " ";
-				}
-				catch (std::out_of_range)
-				{
-					std::cout << "oops" << std::endl;
-					exit(EXIT_FAILURE);
-				}
-				k++;
-				i++;
-			}
-			j++;
+////			a++;
+////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
+			arr.erase(arr.begin());
+//////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
+//////			std::cout << "arr.end() = " << *arr.end() << std::endl;
+			a++;
+			arr.push_back(a);
+			arr_it = arr.begin();
+//			arr_it = arr.begin();
+//			a = 0;
+//			for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
+//			{
+//				std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
+//				a++;
+//				}
+//			exit(EXIT_SUCCESS);
 		}
+		while (arr_it < arr.end())
+		{
+			while (*arr_it <= number_of_sides)
+			{
+				if (number_of_dice == 1)
+					j = 1;
+				else
+					j = number_of_dice - 1;
+				while (j < number_of_sides + number_of_dice - 1)
+				{
+					try
+					{
+						hold = j + *arr_it;
+						possibilities.push_back(hold);
+					}
+					catch (std::out_of_range)
+					{
+						std::cout << "oops" << std::endl;
+						exit(EXIT_FAILURE);
+					}
+					try
+					{
+						std::cout << possibilities.at(i) << " ";
+					}
+					catch (std::out_of_range)
+					{
+						std::cout << "oops" << std::endl;
+						exit(EXIT_FAILURE);
+					}
+					j++;
+					i++;
+				}
+				if (number_of_dice == 1)
+				{
+					std::cout << std::endl;
+					break;
+				}
+				arr_it++;
+				std::cout << std::endl;
+			}
+			arr_it++;
+		}
+		arr_it++;
 	}
-}
 
-//// calculates how many sums are there
-//static void how_many_sums_are_there(t_s &s, unsigned int sample_space)
-//{
-//	unsigned int possibility[sample_space];
-//	for (unsigned int i = 0; i < 36; i++)
-//	{
-//		if (possibility[i] == 2)
-//			s.two++;
-//		else if (possibility[i] == 3)
-//			s.three++;
-//		else if (possibility[i] == 4)
-//			s.four++;
-//		else if (possibility[i] == 5)
-//			s.five++;
-//		else if (possibility[i] == 6)
-//			s.six++;
-//		else if (possibility[i] == 7)
-//			s.seven++;
-//		else if (possibility[i] == 8)
-//			s.eight++;
-//		else if (possibility[i] == 9)
-//			s.nine++;
-//		else if (possibility[i] == 10)
-//			s.ten++;
-//		else if (possibility[i] == 11)
-//			s.eleven++;
-//		else if (possibility[i] == 12)
-//			s.twelve++;
-//	}
-//}
-//
-//// outputs the results
-//static void output_results(unsigned int probability_size)
-//{
-//	float probability[(unsigned int)probability_size];
-//	unsigned int l = 0;
-//
-//	std::cout << "Roll a ...\t";
-//	std::cout << "Probalility" << std::endl;
-//	for (unsigned int i = 2; i <= 12; i++)
-//	{
-//		std::cout << std::setw(10) << i << "\t";
-//		while (l < probability_size)
-//		{
-//			std::cout << std::setw(10) << probability[l] << " %" << std::endl;
-//			l++;
-//			break ;
-//		}
-//	}
-//}
-//
+	//// calculates how many sums are there
+	//static void how_many_sums_are_there(t_s &s, unsigned int sample_space)
+	//{
+	//	unsigned int possibility[sample_space];
+	//	for (unsigned int i = 0; i < 36; i++)
+	//	{
+	//		if (possibility[i] == 2)
+	//			s.two++;
+	//		else if (possibility[i] == 3)
+	//			s.three++;
+	//		else if (possibility[i] == 4)
+	//			s.four++;
+	//		else if (possibility[i] == 5)
+	//			s.five++;
+	//		else if (possibility[i] == 6)
+	//			s.six++;
+	//		else if (possibility[i] == 7)
+	//			s.seven++;
+	//		else if (possibility[i] == 8)
+	//			s.eight++;
+	//		else if (possibility[i] == 9)
+	//			s.nine++;
+	//		else if (possibility[i] == 10)
+	//			s.ten++;
+	//		else if (possibility[i] == 11)
+	//			s.eleven++;
+	//		else if (possibility[i] == 12)
+	//			s.twelve++;
+	//	}
+	//}
+	//
+	//// outputs the results
+	//static void output_results(unsigned int probability_size)
+	//{
+	//	float probability[(unsigned int)probability_size];
+	//	unsigned int l = 0;
+	//
+	//	std::cout << "Roll a ...\t";
+	//	std::cout << "Probalility" << std::endl;
+	//	for (unsigned int i = 2; i <= 12; i++)
+	//	{
+	//		std::cout << std::setw(10) << i << "\t";
+	//		while (l < probability_size)
+	//		{
+	//			std::cout << std::setw(10) << probability[l] << " %" << std::endl;
+	//			l++;
+	//			break ;
+	//		}
+	//	}
+	//}
+
+	//
+}
 void prompt_usage()
 {
 	std::cout << "Usage:\n./a.out <number of dice> <number of sides>" << std::endl;
@@ -161,46 +223,11 @@ void prompt_usage()
 int main(int argc, char **argv)
 {
 	unsigned int ex = 0;
-	if (argc == 1)
-	{
-		(void) argv;
-//		t_s				s;
-//		float			probability[11];
-//		float			sample_space = 36;
-		std::vector<unsigned int> possibility;
-//		unsigned int	possibility[(int)sample_space];
-
-
-//		initialize_to_zero(s, sample_space);
-//		std::cout << possibility.size() << std::endl;
-//		std::cout << possibility.size() << std::endl;
-
-		possibility.push_back(1);
-		possibility.push_back(2);
-		possibility.push_back(3);
-		for (unsigned int i = 0; i < possibility.size(); i++)
-			std::cout << possibility.at(i) << std::endl;
-//		calculate_sample_space(sample_space);
-//		how_many_sums_are_there(s, sample_space);
-//
-//		probability[0] = (s.two / sample_space) * 100;
-//		probability[1] = (s.three / sample_space) * 100;
-//		probability[2] = (s.four / sample_space) * 100;
-//		probability[3] = (s.five / sample_space) * 100;
-//		probability[4] = (s.six / sample_space) * 100;
-//		probability[5] = (s.seven / sample_space) * 100;
-//		probability[6] = (s.eight / sample_space) * 100;
-//		probability[7] = (s.nine / sample_space) * 100;
-//		probability[8] = (s.ten / sample_space) * 100;
-//		probability[9] = (s.eleven / sample_space) * 100;
-//		probability[10] = (s.twelve / sample_space) * 100;
-//
-//		output_results(11);
-	}
-	else if (argc == 3)
+	if (argc == 3)
 	{
 		(void)argv;
 		std::vector<unsigned int> options;
+		std::vector<unsigned int> possibilities;
 		unsigned long long int		sample_space;
 		unsigned int				number_of_sides, number_of_dice, probability_size;
 
@@ -240,7 +267,7 @@ int main(int argc, char **argv)
 		for (std::vector<unsigned int>::iterator it = options.begin(); it < options.end(); ++it)
 			std::cout << *it << " ";
 		std::cout << std::endl;
-		calculate_sample_space(options, sample_space, number_of_sides);
+		calculate_sample_space(possibilities, options, number_of_dice, sample_space, number_of_sides);
 	}
 	else
 		prompt_usage();
