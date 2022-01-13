@@ -72,7 +72,7 @@ static void calculate_sample_space(unsigned int (&possibility)[36])
 			while (k <= 6)
 			{
 				possibility[i] = j + k;
-				std::cout << possibility[i] << " ";
+//				std::cout << possibility[i] << " ";
 				k++;
 				i++;
 			}

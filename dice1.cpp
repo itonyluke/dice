@@ -65,101 +65,191 @@
 static void calculate_sample_space(std::vector<unsigned int> &possibilities, std::vector<unsigned int> &options, unsigned int &number_of_dice, unsigned long long &sample_space, unsigned int &number_of_sides)
 {
 	unsigned int i = 0;
-	unsigned int j = 1;
-	unsigned int hold = 0;
-	std::vector<unsigned int> arr;
+	unsigned int k = 0;
+
+	std::vector<unsigned int> options_copy = options;
+//	std::vector<unsigned int>::iterator it = options_copy.begin();
 	(void)possibilities;
 	(void)sample_space;
-	(void)options;
+//	(void)options;
+	(void)number_of_dice;
+	(void)number_of_sides;
 
-
-	unsigned int a = 0;
-	if (number_of_dice == 1)
-		arr.push_back(a);
-	else if (number_of_dice > 1)
+	while (options_copy != options_copy.end())
 	{
-		a = 1;
-		while (a <= number_of_dice * number_of_sides - 1)
-		{
-			arr.push_back(a);
-			a++;
-		}
-		arr.push_back(a);
+
 	}
-//	a = 0;
-//	for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
+
+//	core functionality !!!!!
+//	core functionality !!!!!
+//	core functionality !!!!!
+//	core functionality !!!!!
+//	while (k < number_of_sides)
 //	{
-//		std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
-//		a++;
+//		while (i < number_of_sides)
+//		{
+//			std::cout << *options_copy.begin() + i << " ";
+//			i++;
+//		}
+//		std::cout << std::endl;
+//		i = 0;
+//		options_copy.erase(options_copy.begin());
+//		k++;
 //	}
-	std::vector<unsigned int>::iterator arr_it = arr.begin();
-	while (i < sample_space)
+//	std::cout << std::endl;
+
+
+//	options.clear();
+//	while (it < options_copy.end())
+//	{
+//		std::cout << *it << " ";
+//		it++;
+//	}
+//	std::cout << std::endl;
+
+//
+//	while (it < options.end())
+//	{
+//		std::cout << *it << " ";
+//		it++;
+//	}
+//	std::cout << std::endl;
+
+	options_copy = options;
+	options_copy.erase(options.begin());
+	i = 0;
+	k = 0;
+	while (k < number_of_sides)
 	{
-		if (i < 7)
-			arr_it = arr.begin();
-		else
+		while (i < number_of_sides)
 		{
-////			a++;
-////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
-			arr.erase(arr.begin());
-//////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
-//////			std::cout << "arr.end() = " << *arr.end() << std::endl;
-			a++;
-			arr.push_back(a);
-			arr_it = arr.begin();
-//			arr_it = arr.begin();
-//			a = 0;
-//			for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
-//			{
-//				std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
-//				a++;
-//				}
-//			exit(EXIT_SUCCESS);
+			std::cout << *options_copy.begin() + i << " ";
+//		std::cout << i << " ";
+			i++;
 		}
-		while (arr_it < arr.end())
-		{
-			while (*arr_it <= number_of_sides)
-			{
-				if (number_of_dice == 1)
-					j = 1;
-				else
-					j = number_of_dice - 1;
-				while (j < number_of_sides + number_of_dice - 1)
-				{
-					try
-					{
-						hold = j + *arr_it;
-						possibilities.push_back(hold);
-					}
-					catch (std::out_of_range)
-					{
-						std::cout << "oops" << std::endl;
-						exit(EXIT_FAILURE);
-					}
-					try
-					{
-						std::cout << possibilities.at(i) << " ";
-					}
-					catch (std::out_of_range)
-					{
-						std::cout << "oops" << std::endl;
-						exit(EXIT_FAILURE);
-					}
-					j++;
-					i++;
-				}
-				if (number_of_dice == 1)
-				{
-					std::cout << std::endl;
-					break;
-				}
-				arr_it++;
-				std::cout << std::endl;
-			}
-			arr_it++;
-		}
-		arr_it++;
+		std::cout << std::endl;
+		i = 0;
+		options_copy.erase(options_copy.begin());
+		k++;
 	}
+	std::cout << std::endl;
+
+
+
+//	while (k < *(options.end() - 1))
+//	{
+//		while (i < sample_space)
+//		{
+//			if (j >= number_of_dice && j < options.size() - (number_of_dice - 1))
+//			{
+//				if (j >= number_of_dice && j < options.size() - (j - 1))
+//				{
+//					std::cout.flush() << j << " ";
+//					j++;
+//				}
+//			}
+//			i++;
+//		}
+//		std::cout << std::endl;
+//		k++;
+//		i = 0;
+//		options.erase(options.begin());
+//		j = *options.begin();
+//	}
+}
+
+
+//	unsigned int a = 0;
+//	if (number_of_dice == 1)
+//		arr.push_back(a);
+//	else if (number_of_dice > 1)
+//	{
+//		a = 1;
+//		while (a <= number_of_dice * number_of_sides - 1)
+//		{
+//			arr.push_back(a);
+//			a++;
+//		}
+//		arr.push_back(a);
+//	}
+////	a = 0;
+////	for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
+////	{
+////		std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
+////		a++;
+////	}
+//	std::vector<unsigned int>::iterator arr_it = arr.begin();
+//	while (i < sample_space)
+//	{
+//		if (i < 7)
+//			arr_it = arr.begin();
+//		else
+//		{
+//////			a++;
+//////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
+//			arr.erase(arr.begin());
+////////			std::cout << "arr.begin() = " << *arr.begin() << std::endl;
+////////			std::cout << "arr.end() = " << *arr.end() << std::endl;
+//			a++;
+//			arr.push_back(a);
+//			arr_it = arr.begin();
+////			arr_it = arr.begin();
+////			a = 0;
+////			for (std::vector<unsigned int>::iterator arr_it= arr.begin(); arr_it< arr.end(); ++arr_it)
+////			{
+////				std::cout << "arr[" << a << "] = " << *arr_it<< " " << std::endl;
+////				a++;
+////				}
+////			exit(EXIT_SUCCESS);
+//
+//		}
+////		while (arr_it < arr.end())
+////		{
+//			while (*arr_it <= number_of_sides)
+//			{
+//				if (number_of_dice == 1)
+//					j = 1;
+////				else if (j < number_of_sides + number_of_dice)
+////					j = number_of_dice - 1;
+//				else
+//					j = number_of_dice - 1;
+////					while (j < number_of_sides + number_of_dice - 1)
+//						while (j < number_of_sides + number_of_dice - 1)
+//				{
+////					try
+////					{
+//						hold = j + *arr_it;
+//						possibilities.push_back(hold);
+////					}
+////					catch (std::out_of_range)
+////					{
+////						std::cout << "oops" << std::endl;
+////						exit(EXIT_FAILURE);
+////					}
+////					try
+////					{
+//						std::cout.flush() << possibilities.at(i) << " ";
+////					}
+////					catch (std::out_of_range)
+////					{
+////						std::cout << "oops" << std::endl;
+////						exit(EXIT_FAILURE);
+////					}
+//					j++;
+//					i++;
+//				}
+//				if (number_of_dice == 1)
+//				{
+//					std::cout << std::endl;
+//					break;
+//				}
+//				*arr_it++;
+//				std::cout << std::endl;
+//			}
+////			*arr_it++;
+////		}
+////		*arr_it++;
+//	}
 
 	//// calculates how many sums are there
 	//static void how_many_sums_are_there(t_s &s, unsigned int sample_space)
@@ -211,9 +301,8 @@ static void calculate_sample_space(std::vector<unsigned int> &possibilities, std
 	//		}
 	//	}
 	//}
-
 	//
-}
+//}
 void prompt_usage()
 {
 	std::cout << "Usage:\n./a.out <number of dice> <number of sides>" << std::endl;
