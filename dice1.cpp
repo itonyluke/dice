@@ -75,9 +75,43 @@ static void calculate_sample_space(std::vector<unsigned int> &possibilities, std
 	(void)number_of_dice;
 	(void)number_of_sides;
 
-	while (options_copy != options_copy.end())
+	unsigned int j = 1;
+	while (j <= number_of_sides)
+//	while ((*options_copy.begin()) != *(options.end()))
 	{
+		while (k < number_of_sides)
+		{
+			while (i < number_of_sides)
+			{
+				std::cout << *options_copy.begin() + i << " ";
+				i++;
+				if ((*options_copy.begin() + i) == *(options.end() + number_of_sides - 1))
+				{
+					std::cout << *options_copy.begin() + i << std::endl;
+					exit(EXIT_SUCCESS);
+				}
+			}
+			std::cout << std::endl;
+//			std::cout.flush() << "*options_copy.begin() = "<< *options_copy.begin() + i << " ";
+//			std::cout.flush() << "*options.end() = "<< *options.end() + number_of_sides - 1 << std::endl;
+			i = 0;
+			options_copy.erase(options_copy.begin());
+			k++;
+		}
+		std::cout << std::endl;
 
+//		std::cout.flush() << "*options.begin() = "<< *options.begin() << std::endl;
+//		std::cout.flush() << "*options_copy.begin() = "<< *options_copy.begin() << std::endl;
+//		std::cout.flush() << "*options.end() = "<< *options.end() << std::endl;
+//		std::cout.flush() << "*options_copy.end() = "<< *options_copy.end() << std::endl;
+//		std::cout.flush() << "*options.size() = "<< options.size() << std::endl;
+//		std::cout.flush() << "*options_copy.size() = "<< options_copy.size() << std::endl;
+//		std::cout.flush() << std::endl;
+		options_copy = options;
+		options_copy.erase(options.begin());
+		i = 0;
+		k = 0;
+		j++;
 	}
 
 //	core functionality !!!!!
@@ -115,24 +149,24 @@ static void calculate_sample_space(std::vector<unsigned int> &possibilities, std
 //	}
 //	std::cout << std::endl;
 
-	options_copy = options;
-	options_copy.erase(options.begin());
-	i = 0;
-	k = 0;
-	while (k < number_of_sides)
-	{
-		while (i < number_of_sides)
-		{
-			std::cout << *options_copy.begin() + i << " ";
-//		std::cout << i << " ";
-			i++;
-		}
-		std::cout << std::endl;
-		i = 0;
-		options_copy.erase(options_copy.begin());
-		k++;
-	}
-	std::cout << std::endl;
+//	options_copy = options;
+//	options_copy.erase(options.begin());
+//	i = 0;
+//	k = 0;
+//	while (k < number_of_sides)
+//	{
+//		while (i < number_of_sides)
+//		{
+//			std::cout << *options_copy.begin() + i << " ";
+////		std::cout << i << " ";
+//			i++;
+//		}
+//		std::cout << std::endl;
+//		i = 0;
+//		options_copy.erase(options_copy.begin());
+//		k++;
+//	}
+//	std::cout << std::endl;
 
 
 
