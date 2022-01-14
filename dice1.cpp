@@ -23,54 +23,19 @@
 #include <iomanip>
 #include <complex>
 #include <vector>
-
-//// structure to hold sums
-//typedef struct s_s
-//{
-//	float two;
-//	float three;
-//	float four;
-//	float five;
-//	float six;
-//	float seven;
-//	float eight;
-//	float nine;
-//	float ten;
-//	float eleven;
-//	float twelve;
-//}				t_s;
-//
-//// initializes variables to zero
-//static void initialize_to_zero(t_s &s, unsigned int sample_space)
-//{
-//	unsigned int possibility[sample_space];
-//	s.two = 0;
-//	s.three = 0;
-//	s.four = 0;
-//	s.five = 0;
-//	s.six = 0;
-//	s.seven = 0;
-//	s.eight = 0;
-//	s.nine = 0;
-//	s.ten = 0;
-//	s.eleven = 0;
-//	s.twelve = 0;
-//
-//	for (unsigned int i = 0; i < 36; i++)
-//		possibility[i] = 0;
-//}
-//
+#include <map>
+#include <cmath>
 
 //// calculates sample space
-static void calculate_sample_space(std::vector<unsigned int> &options, std::vector<unsigned int> &possibilities, unsigned long long &sample_space, unsigned int &number_of_sides)
+static void calculate_sample_space(std::vector<float> &options, std::multimap<float, float> &possibilities, float &sample_space, float &number_of_sides)
 {
-	unsigned int i = 0;
-	unsigned int k = 0;
-	unsigned int j = 0;
-	unsigned int options_end = *(options.end() - 1);
+	float i = 0;
+	float k = 0;
+	float j = 0;
+	float options_end = *(options.end() - 1);
+	std::vector<float> options_copy = options;
 
-	std::vector<unsigned int> options_copy = options;
-	while (j < sample_space)
+	while (j <= sample_space)
 	{
 		while (k < number_of_sides)
 		{
@@ -78,10 +43,10 @@ static void calculate_sample_space(std::vector<unsigned int> &options, std::vect
 			{
 				if ((*options_copy.begin() + i) == options_end)
 				{
-					possibilities.push_back(*options_copy.begin() + i);
+					possibilities.insert(std::pair<float, float>(*options_copy.begin() + i, *options_copy.begin() + i));
 					return ;
 				}
-				possibilities.push_back(*options_copy.begin() + i);
+				possibilities.insert(std::pair<float, float>(*options_copy.begin() + i, *options_copy.begin() + i));
 				i++;
 			}
 //			std::cout << std::endl;
@@ -97,19 +62,6 @@ static void calculate_sample_space(std::vector<unsigned int> &options, std::vect
 	}
 }
 
-//static void how_many_sums_are_there(std::vector<unsigned int> &possibilities, std::vector<unsigned int> &options, unsigned int &sample_space)
-//{
-//	for (unsigned int i = 0; i < sample_space; i++)
-//	{
-//		for (unsigned int j = 0; j < options.size(); j++)
-//		{
-//			if (possibilities.at(i) == options.at(j))
-//
-//
-//		}
-//	}
-//}
-
 void prompt_usage()
 {
 	std::cout << "Usage:\n./a.out <number of dice> <number of sides>" << std::endl;
@@ -118,35 +70,90 @@ void prompt_usage()
 
 int main(int argc, char **argv)
 {
-	unsigned int ex = 0;
 	if (argc == 3)
 	{
-		std::vector<unsigned int> options;
-		std::vector<unsigned int> possibilities;
-		unsigned long long int		sample_space;
-		unsigned int				number_of_sides, number_of_dice, probability_size;
+		unsigned int				ex = 0;
+		float						sample_space = 0, number_of_sides = 0, number_of_dice = 0;
+		std::vector<float>			options, options_copy;
+		std::multimap<float, float>	possibilities;
 
 		try
 		{
-			number_of_dice = std::stoi(argv[1]);
-			number_of_sides = std::stoi(argv[2]);
+			number_of_dice = std::stof(argv[1]);
+			number_of_sides = std::stof(argv[2]);
 		}
 		catch (const std::invalid_argument &exc)
 		{
 			ex++;
 			std::cout << "#" << ex << " " << exc.what() << std::endl;
 		}
+		if (number_of_dice == 3 && number_of_sides == 2)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 3 && number_of_sides == 3)
+		{
+			std::cout << "for some reason I abort in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 12 && number_of_sides == 12)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 11 && number_of_sides == 13)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 12 && number_of_sides == 13)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 13 && number_of_sides == 13)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 13 && number_of_sides == 12)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 14 && number_of_sides == 13)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 13 && number_of_sides == 14)
+		{
+			std::cout << "for some reason I get a segmentation fault in this case" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice > 16 && number_of_sides > 16)
+		{
+			std::cout << "that is too much even for me" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice == 16 && number_of_sides > 16)
+		{
+			std::cout << "that is too much even for me" << std::endl;
+			return (EXIT_FAILURE);
+		}
+		else if (number_of_dice > 16 && number_of_sides == 16)
+		{
+			std::cout << "that is too much even for me" << std::endl;
+			return (EXIT_FAILURE);
+		}
 		sample_space = pow(number_of_sides, number_of_dice);
-		if (sample_space == 0)
+		if (std::isinf(sample_space))
 		{
 			std::cout << "that is too much even for me" << std::endl;
 			exit(EXIT_SUCCESS);
 		}
-		std::cout << "number_of_dice =\t"<< number_of_dice << "\n" << "number_of_sides =\t"<< number_of_sides << std::endl;
-		probability_size = number_of_dice * number_of_sides - 1;
-		std::cout << "probability_size =\t"<< probability_size << std::endl;
-		std::cout << "sample_space =\t\t"<< sample_space << std::endl;
-		for (unsigned int i = 1; i <= (number_of_sides * number_of_dice); i++)
+		for (float i = 1; i <= (number_of_sides * number_of_dice); i++)
 		{
 			if (number_of_dice == 1)
 				options.push_back(i);
@@ -158,16 +165,22 @@ int main(int argc, char **argv)
 			else
 				options.push_back(i);
 		}
-		std::cout << "options.size() =\t"<< options.size() << std::endl;
-		for (std::vector<unsigned int>::iterator it = options.begin(); it < options.end(); ++it)
+		options_copy = options;
+//		std::cout << "options.size() =\t"<< options_copy.size() << std::endl;
+		for (std::vector<float>::iterator it = options_copy.begin(); it < options_copy.end(); ++it)
 			std::cout << *it << " ";
 		std::cout << std::endl;
-		calculate_sample_space(options, possibilities, sample_space, number_of_sides);
 
-		std::vector<unsigned int>::iterator it = possibilities.begin();
-		while (it < possibilities.end())
+		calculate_sample_space(options_copy, possibilities, sample_space, number_of_sides);
+
+		std::vector<float>::iterator it = options.begin();
+		std::cout << "Roll a ...\t";
+		std::cout << "Probability" << std::endl;
+		while (it != options.end())
 		{
-			std::cout.flush() << *it << " ";
+			if (*it == 0)
+				exit(EXIT_FAILURE);
+			std::cout << std::setw(10) << *it << "\t" << (possibilities.count(*it) / sample_space) * 100 << " %" << std::endl;
 			it++;
 		}
 	}
