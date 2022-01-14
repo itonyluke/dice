@@ -62,67 +62,53 @@
 //
 
 //// calculates sample space
-static void calculate_sample_space(std::vector<unsigned int> &possibilities, std::vector<unsigned int> &options, unsigned int &number_of_dice, unsigned long long &sample_space, unsigned int &number_of_sides)
+static void calculate_sample_space(std::vector<unsigned int> &options, std::vector<unsigned int> &possibilities, unsigned long long &sample_space, unsigned int &number_of_sides)
 {
 	unsigned int i = 0;
 	unsigned int k = 0;
-	unsigned int hold = *(options.end() - 1);
+	unsigned int j = 0;
+	unsigned int options_end = *(options.end() - 1);
 
 	std::vector<unsigned int> options_copy = options;
-	(void) possibilities;
-	(void) sample_space;
-//	(void)options;
-	(void) number_of_dice;
-	(void) number_of_sides;
-
-
-	unsigned int j = 1;
-	while (j <= sample_space)
+	while (j < sample_space)
 	{
 		while (k < number_of_sides)
 		{
 			while (i < number_of_sides)
 			{
-				if ((*options_copy.begin() + i) == hold)
+				if ((*options_copy.begin() + i) == options_end)
 				{
-					std::cout << *options_copy.begin() + i << std::endl;
-					exit(EXIT_SUCCESS);
+					possibilities.push_back(*options_copy.begin() + i);
+					return ;
 				}
-				std::cout << *options_copy.begin() + i << " ";
+				possibilities.push_back(*options_copy.begin() + i);
 				i++;
 			}
-			std::cout << std::endl;
+//			std::cout << std::endl;
 			i = 0;
 			options_copy.erase(options_copy.begin());
 			k++;
 		}
-		std::cout << std::endl;
-
 		options_copy = options;
 		options_copy.erase(options.begin());
 		i = 0;
 		k = 0;
 		j++;
 	}
-
-//	core functionality !!!!!
-//	core functionality !!!!!
-//	core functionality !!!!!
-//	core functionality !!!!!
-//	while (k < number_of_sides)
-//	{
-//		while (i < number_of_sides)
-//		{
-//			std::cout << *options_copy.begin() + i << " ";
-//			i++;
-//		}
-//		std::cout << std::endl;
-//		i = 0;
-//		options_copy.erase(options_copy.begin());
-//		k++;
-//	}
-//	std::cout << std::endl;
 }
+
+//static void how_many_sums_are_there(std::vector<unsigned int> &possibilities, std::vector<unsigned int> &options, unsigned int &sample_space)
+//{
+//	for (unsigned int i = 0; i < sample_space; i++)
+//	{
+//		for (unsigned int j = 0; j < options.size(); j++)
+//		{
+//			if (possibilities.at(i) == options.at(j))
+//
+//
+//		}
+//	}
+//}
 
 void prompt_usage()
 {
@@ -135,7 +121,6 @@ int main(int argc, char **argv)
 	unsigned int ex = 0;
 	if (argc == 3)
 	{
-		(void)argv;
 		std::vector<unsigned int> options;
 		std::vector<unsigned int> possibilities;
 		unsigned long long int		sample_space;
@@ -177,7 +162,14 @@ int main(int argc, char **argv)
 		for (std::vector<unsigned int>::iterator it = options.begin(); it < options.end(); ++it)
 			std::cout << *it << " ";
 		std::cout << std::endl;
-		calculate_sample_space(possibilities, options, number_of_dice, sample_space, number_of_sides);
+		calculate_sample_space(options, possibilities, sample_space, number_of_sides);
+
+		std::vector<unsigned int>::iterator it = possibilities.begin();
+		while (it < possibilities.end())
+		{
+			std::cout.flush() << *it << " ";
+			it++;
+		}
 	}
 	else
 		prompt_usage();
