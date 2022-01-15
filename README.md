@@ -1,4 +1,4 @@
-### this program calculates the probabilities for each sum from 2 to 12 by rolling two six-sided dice
+### this program calculates the probabilities for each sum while rolling different amount of dice with different amount of sides
 
 #### install:
 `git clone https://github.com/itonyluke/dice dice`
@@ -7,7 +7,7 @@
 `clang++ dice.cpp`
 
 #### run:
-`./a.out`
+`./a.out <number_of_dice> <number_of_sides>`
 
 ![output example](images/example.png)
 
