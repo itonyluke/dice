@@ -30,12 +30,12 @@
 #define DEFAULT "\033[0m"
 
 //calculate permutations
-static void calculate_permutations(std::vector<double> &results_copy, std::multimap<double, double> &permutations, double &sample_space, double &number_of_sides)
+static void calculate_permutations(std::vector<double> &results_copy, std::multimap<double, double> &permutations, const double &sample_space, const double &number_of_sides)
 {
 	double i = 0;
 	double k = 0;
 	double j = 0;
-	double results_end = *(results_copy.end() - 1);
+	const double results_end = *(results_copy.end() - 1);
 	std::vector<double> results_copy_copy = results_copy;
 
 	while (j < sample_space)
@@ -65,7 +65,7 @@ static void calculate_permutations(std::vector<double> &results_copy, std::multi
 }
 
 //check sample_space for infinity
-static void	check_sample_space_for_infinity(double &sample_space)
+static void	check_sample_space_for_infinity(const double &sample_space)
 {
 	if (std::isinf(sample_space))
 	{
@@ -134,10 +134,15 @@ static void convert_arguments_to_double(const char **argv, double &number_of_dic
 		std::cout << YELLOW << "for some reason this case does not work" << DEFAULT << std::endl;
 		exit(EXIT_SUCCESS);
 	}
+	else if (number_of_dice == 0 || number_of_sides == 0)
+	{
+		std::cout << YELLOW << "well, one of the arguments is zero, what do you expect?" << DEFAULT << std::endl;
+		exit(EXIT_SUCCESS);
+	}
 }
 
 //output probabilities
-static void output_probabilities(std::vector<double> &results, const std::multimap<double, double>	&permutations, double &sample_space)
+static void output_probabilities(std::vector<double> &results, const std::multimap<double, double>	&permutations, const double &sample_space)
 {
 	std::vector<double>::iterator it = results.begin();
 
