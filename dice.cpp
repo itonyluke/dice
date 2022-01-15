@@ -3,7 +3,7 @@
 //dice is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
 //the Free Software Foundation, either version 3 of the License, or
-//(at your option) any later version.
+//any later version.
 //
 //dice is distributed in the hope that it will be useful,
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,146 +14,182 @@
 //along with dice.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-// Created by pavlyukevich.anton@gmail.com on 08.01.22
+// Created by pavlyukevich.anton@gmail.com on 15.01.22
 //
 
 // built and tested on Darwin Kernel Version 18.7.0: Tue Jun 22 19:37:08 PDT 2021; root:xnu-4903.278.70~1/RELEASE_X86_64 x86_64
 
 #include <iostream>
 #include <iomanip>
+#include <complex>
+#include <vector>
+#include <map>
 
-// structure to hold sums
-typedef struct s_s
+#define YELLOW "\033[33m"
+#define B_RED "\033[91m"
+#define DARK_GREY "\033[90m"
+#define DEFAULT "\033[0m"
+
+//calculate permutations
+static void calculate_permutations(std::vector<double> &results_copy, std::multimap<double, double> &permutations, const double &sample_space, const double &number_of_sides)
 {
-	float two;
-	float three;
-	float four;
-	float five;
-	float six;
-	float seven;
-	float eight;
-	float nine;
-	float ten;
-	float eleven;
-	float twelve;
-}				t_s;
+	double i = 0;
+	double k = 0;
+	double j = 0;
+	const double results_end = *(results_copy.end() - 1);
+	std::vector<double> results_copy_copy = results_copy;
 
-// initializes variables to zero
-static void initialize_to_zero(t_s &s, unsigned int (&possibility)[36])
-{
-	s.two = 0;
-	s.three = 0;
-	s.four = 0;
-	s.five = 0;
-	s.six = 0;
-	s.seven = 0;
-	s.eight = 0;
-	s.nine = 0;
-	s.ten = 0;
-	s.eleven = 0;
-	s.twelve = 0;
-
-	for (unsigned int i = 0; i < 36; i++)
-		possibility[i] = 0;
-}
-
-// calculates sample space
-static void calculate_sample_space(unsigned int (&possibility)[36])
-{
-	unsigned int i = 0;
-	unsigned int j = 1;
-	unsigned int k = 1;
-
-	while (i < 36)
+	while (j < sample_space)
 	{
-		while (j <= 6)
+		while (k < number_of_sides)
 		{
-			k = 1;
-			while (k <= 6)
+			while (i < number_of_sides)
 			{
-				possibility[i] = j + k;
-//				std::cout << possibility[i] << " ";
-				k++;
+				if ((*results_copy_copy.begin() + i) == results_end)
+				{
+					permutations.insert(std::pair<double, double>(*results_copy_copy.begin() + i, *results_copy_copy.begin() + i));
+					return ;
+				}
+				permutations.insert(std::pair<double, double>(*results_copy_copy.begin() + i, *results_copy_copy.begin() + i));
 				i++;
 			}
-			j++;
+			i = 0;
+			results_copy_copy.erase(results_copy_copy.begin());
+			k++;
 		}
+		results_copy_copy = results_copy;
+		results_copy_copy.erase(results_copy.begin());
+		i = 0;
+		k = 0;
+		j++;
 	}
 }
 
-// calculates how many sums are there
-static void how_many_sums_are_there(t_s &s, unsigned int (&possibility)[36])
+//check sample_space for infinity
+static void	check_sample_space_for_infinity(const double &sample_space)
 {
-	for (unsigned int i = 0; i < 36; i++)
+	if (std::isinf(sample_space))
 	{
-		if (possibility[i] == 2)
-			s.two++;
-		else if (possibility[i] == 3)
-			s.three++;
-		else if (possibility[i] == 4)
-			s.four++;
-		else if (possibility[i] == 5)
-			s.five++;
-		else if (possibility[i] == 6)
-			s.six++;
-		else if (possibility[i] == 7)
-			s.seven++;
-		else if (possibility[i] == 8)
-			s.eight++;
-		else if (possibility[i] == 9)
-			s.nine++;
-		else if (possibility[i] == 10)
-			s.ten++;
-		else if (possibility[i] == 11)
-			s.eleven++;
-		else if (possibility[i] == 12)
-			s.twelve++;
+		std::cout << B_RED << "that is too much even for me" << DEFAULT << std::endl;
+		exit(EXIT_SUCCESS);
 	}
 }
 
-// outputs the results
-static void output_results(float (&probability)[11])
+//calculate results
+static void calculate_results(std::vector<double> &results, const double &number_of_dice, const double &number_of_sides)
 {
-	unsigned int l = 0;
+	for (double i = 1; i <= (number_of_dice * number_of_sides); i++)
+	{
+		if (number_of_dice == 1)
+			results.push_back(i);
+		else if (i == 1)
+		{
+			i = number_of_dice;
+			results.push_back(i);
+		}
+		else
+			results.push_back(i);
+	}
+}
+
+//convert arguments to double
+static void convert_arguments_to_double(const char **argv, double &number_of_dice, double &number_of_sides)
+{
+	try
+	{
+		number_of_dice = std::stod(argv[1]);
+		number_of_sides = std::stod(argv[2]);
+	}
+	catch (const std::invalid_argument &ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+	if (number_of_dice == 1)
+		std::cout << DARK_GREY << number_of_dice << " die" << DEFAULT << std::endl;
+	else
+		std::cout << DARK_GREY << number_of_dice << " dice" << DEFAULT << std::endl;
+	if (number_of_sides == 1)
+		std::cout << DARK_GREY << number_of_sides << " side" << DEFAULT << std::endl;
+	else
+		std::cout << DARK_GREY << number_of_sides << " sides" << DEFAULT << std::endl;
+
+
+	if ((number_of_dice == 9 && number_of_sides == 5)
+		|| (number_of_dice == 9 && number_of_sides == 9)
+		|| (number_of_dice == 9 && number_of_sides == 10)
+		|| (number_of_dice == 9 && number_of_sides == 11)
+		|| (number_of_dice == 9 && number_of_sides == 12)
+		|| (number_of_dice == 10 && number_of_sides == 8)
+		|| (number_of_dice == 10 && number_of_sides == 9)
+		|| (number_of_dice == 10 && number_of_sides == 10)
+		|| (number_of_dice == 11 && number_of_sides == 9)
+		|| (number_of_dice == 11 && number_of_sides == 10)
+		|| (number_of_dice == 12 && number_of_sides == 9)
+		|| (number_of_dice == 12 && number_of_sides == 12)
+		|| (number_of_dice == 12 && number_of_sides == 13)
+		|| (number_of_dice == 12 && number_of_sides == 14)
+		|| (number_of_dice == 12 && number_of_sides == 15)
+		|| (number_of_dice == 12 && number_of_sides == 16)
+		|| (number_of_dice == 13 && number_of_sides == 12)
+		|| (number_of_dice == 13 && number_of_sides == 13)
+		|| (number_of_dice == 13 && number_of_sides == 14)
+		|| (number_of_dice == 13 && number_of_sides == 15)
+		|| (number_of_dice == 14 && number_of_sides == 12)
+		|| (number_of_dice == 14 && number_of_sides == 13)
+		|| (number_of_dice == 14 && number_of_sides == 14)
+		|| (number_of_dice == 15 && number_of_sides == 12)
+		|| (number_of_dice == 15 && number_of_sides == 13)
+		|| (number_of_dice == 16 && number_of_sides == 12)
+		|| (number_of_dice == 17 && number_of_sides == 12))
+	{
+		std::cout << YELLOW << "for some reason this case does not work" << DEFAULT << std::endl;
+		exit(EXIT_SUCCESS);
+	}
+	else if (number_of_dice == 0 || number_of_sides == 0)
+	{
+		std::cout << YELLOW << "well, one of the arguments is zero, what do you expect?" << DEFAULT << std::endl;
+		exit(EXIT_SUCCESS);
+	}
+}
+
+//output probabilities
+static void output_probabilities(std::vector<double> &results, const std::multimap<double, double>	&permutations, const double &sample_space)
+{
+	std::vector<double>::iterator it = results.begin();
 
 	std::cout << "Roll a ...\t";
 	std::cout << "Probability" << std::endl;
-	for (unsigned int i = 2; i <= 12; i++)
+	while (it != results.end())
 	{
-		std::cout << std::setw(10) << i << "\t";
-		while (l < 11)
-		{
-			std::cout << std::setw(10) << probability[l] << " %" << std::endl;
-			l++;
-			break ;
-		}
+		std::cout << std::setw(10) << *it << "\t" << (permutations.count(*it) / sample_space) * 100 << " %" << std::endl;
+		it++;
 	}
 }
 
-int main(void)
+//prompt usage
+void prompt_usage()
 {
-	t_s				s;
-	float			probability[11];
-	float			thirty_six = 36;
-	unsigned int	possibility[36];
+	std::cout << YELLOW << "Usage:\n./a.out <number of dice> <number of sides>" << DEFAULT << std::endl;
+	exit(EXIT_SUCCESS);
+}
 
-	initialize_to_zero(s, possibility);
-	calculate_sample_space(possibility);
-	how_many_sums_are_there(s, possibility);
+int main(const int argc, const char **argv)
+{
+	if (argc == 3)
+	{
+		double							sample_space = 0, number_of_sides = 0, number_of_dice = 0;
+		std::vector<double>				results, results_copy;
+		std::multimap<double, double>	permutations;
 
-	probability[0] = (s.two / thirty_six) * 100;
-	probability[1] = (s.three / thirty_six) * 100;
-	probability[2] = (s.four / thirty_six) * 100;
-	probability[3] = (s.five / thirty_six) * 100;
-	probability[4] = (s.six / thirty_six) * 100;
-	probability[5] = (s.seven / thirty_six) * 100;
-	probability[6] = (s.eight / thirty_six) * 100;
-	probability[7] = (s.nine / thirty_six) * 100;
-	probability[8] = (s.ten / thirty_six) * 100;
-	probability[9] = (s.eleven / thirty_six) * 100;
-	probability[10] = (s.twelve / thirty_six) * 100;
-
-	output_results(probability);
-
+		convert_arguments_to_double(argv, number_of_dice, number_of_sides);
+		sample_space = pow(number_of_sides, number_of_dice);
+		check_sample_space_for_infinity(sample_space);
+		calculate_results(results, number_of_dice, number_of_sides);
+		results_copy = results;
+		calculate_permutations(results_copy, permutations, sample_space, number_of_sides);
+		output_probabilities(results, permutations, sample_space);
+	}
+	else
+		prompt_usage();
 	return (0);
 }
