@@ -78,7 +78,7 @@ static void	check_sample_space_for_infinity(const double &sample_space)
 //calculate results
 static void calculate_results(std::vector<double> &results, const double &number_of_dice, const double &number_of_sides)
 {
-	for (double i = 1; i < (number_of_dice * number_of_sides); i++)
+	for (double i = 1; i <= (number_of_dice * number_of_sides); i++)
 	{
 		if (number_of_dice == 1)
 			results.push_back(i);
