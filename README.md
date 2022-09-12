@@ -1,7 +1,9 @@
 ### this program calculates the probabilities for each sum while rolling different amount of dice with different amount of sides
 
 #### install:
-`git clone https://github.com/itonyluke/dice dice`
+```
+git clone https://github.com/itonyluke/dice dice
+```
 
 #### compile:
 `clang++ dice.cpp`
